@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+description: Generic Application Chart
+name: generic-application-chart
+version: 1.0.0
+appVersion: 0.0.0
+icon: https://helm.sh/img/helm.svg
+maintainers:
+  - name: Joffrey JANIEC
+    email: 16088893+jjaniec@users.noreply.github.com
+dependencies: []

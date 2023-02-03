@@ -1,0 +1,7 @@
+## Application '{{ .Values.nameOverride }}' deployed !
+
+You can now check the status of the deployed pods using the following command:
+
+```bash
+  kubectl get pods -n '{{ .Release.Namespace }}' -l app='{{ .Values.nameOverride }}'
+```
