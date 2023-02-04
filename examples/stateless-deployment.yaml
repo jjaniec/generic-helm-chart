@@ -1,0 +1,102 @@
+generic-helm-chart:
+  nameOverride: example-api
+  appVersionOverride: "1.2.3"
+
+  datadog:
+    enabled: true
+    env: env
+
+  image:
+    name: ghcr.io/OWNER/IMAGE_NAME
+    tag: build-12345
+
+  serviceAccount:
+    create: true
+    name: example-api
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::xxx:role/irsa-example-api
+
+  service:
+    enabled: true
+    ports:
+      - port: 8080
+        protocol: TCP
+
+  podDisruptionBudget:
+    enabled: true
+
+  pods:
+    controller: deployment
+
+    podLabels:
+      sidecar.istio.io/inject: "true"
+
+    resources:
+      limits:
+        memory: 2Gi
+      requests:
+        cpu: 200m
+        memory: 512Mi
+
+    affinity:
+      antiAffinity:
+        enabled: true
+        type: soft
+      rules:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload-type
+                    operator: In
+                    values:
+                      - stateless
+
+    livenessProbe:
+      httpGet:
+        path: /health/liveness
+        port: 8080
+      initialDelaySeconds: 60
+      periodSeconds: 15
+      failureThreshold: 4
+      timeoutSeconds: 3
+
+    readinessProbe:
+      httpGet:
+        path: /health/readiness
+        port: 8080
+      initialDelaySeconds: 60
+      periodSeconds: 5
+
+    ports:
+      - name: tcp-8080
+        containerPort: 8080
+        protocol: TCP
+
+    tolerations:
+      - key: reserved-workload-type
+        operator: Equal
+        value: stateless
+        effect: NoSchedule
+
+    volumes:
+      - name: example-api-config
+        configMap:
+          name: example-api-config
+
+    volumeMounts:
+      - name: example-api-config
+        mountPath: "/config.json"
+        subPath: config.json
+
+  horizontalPodAutoscaler:
+    enabled: true
+    minReplicas: 5
+    maxReplicas: 15
+    targetAverageCPUUtilization: 60
+
+  configMaps:
+    config: |-
+        {
+          ...
+        }
