@@ -1,9 +1,9 @@
 
 # See https://github.com/helm/chart-testing#configuration
 remote: origin
-target-branch: main
+target-branch: master
 chart-dirs:
-  - .
+  - generic-application-chart
 chart-repos: []
 helm-extra-args: --timeout 600s
 validate-maintainers: false

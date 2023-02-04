@@ -1,0 +1,4 @@
+owner: jjaniec
+git-base-url: https://api.github.com/
+charts_dir: generic-application-chart
+git-repo: generic-helm-chart
