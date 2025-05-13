@@ -2,7 +2,7 @@
 apiVersion: v2
 description: Generic Application Chart
 name: generic-application-chart
-version: 1.0.0
+version: 1.0.1
 appVersion: 0.0.0
 icon: https://helm.sh/img/helm.svg
 maintainers:
