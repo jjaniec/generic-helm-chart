@@ -40,7 +40,7 @@ image:
 pods:
   # pods.controller -- controller used to schedule pods
   # Can either be 'deployment', 'statefulset' or 'daemonset'
-  controller: deployment
+  controller:
 
   # pods.replicas -- amount of desired pod(s) replica(s)
   # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#replicas

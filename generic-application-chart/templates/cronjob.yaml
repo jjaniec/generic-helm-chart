@@ -1,0 +1,30 @@
+{{- range $name, $data := .Values.cronjobs -}}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "app.fullname" $ }}-{{ $name }}
+  {{- include "generic.labels" $ | nindent 2 }}
+  {{- with $data.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  schedule: {{ $data.schedule | quote }}
+  {{- with $data.concurrencyPolicy }}
+  concurrencyPolicy: {{ . }}
+  {{- end }}
+  {{- with $data.failedJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ . }}
+  {{- end }}
+  {{- with $data.successfulJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ . }}
+  {{- end }}
+  {{- with $data.startingDeadlineSeconds }}
+  startingDeadlineSeconds: {{ . }}
+  {{- end }}
+  {{- with $data.suspend }}
+  suspend: {{ . }}
+  {{- end }}
+  jobTemplate:
+    spec: {{ toYaml $data.spec | nindent 6 }}
+{{- end }}
