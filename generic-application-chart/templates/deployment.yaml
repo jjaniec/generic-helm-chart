@@ -28,9 +28,12 @@ spec:
       {{- include "generic.labels" . | nindent 6 }}
         helm.sh/from: deploy.{{ include "app.fullname" . }}
         {{- include "pods.podLabels" . | nindent 8 }}
-      {{- with .Values.pods.podAnnotations }}
-      annotations: {{ toYaml . | nindent 8 }}
-      {{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.pods.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       dnsPolicy: {{ .Values.pods.dnsPolicy }}
