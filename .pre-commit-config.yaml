@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
       - id: check-ast
@@ -20,14 +20,14 @@ repos:
         args: ['--branch', 'master']
 
   - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.2.0
+    rev: v1.5.0
     hooks:
     - id: detect-secrets
       args: ["--disable-plugin", "Base64HighEntropyString", "--disable-plugin", "KeywordDetector", "--exclude-files", "README.md"]
 
   # Repo specific
   - repo: https://github.com/norwoodj/helm-docs
-    rev: v1.2.0
+    rev: v1.14.2
     hooks:
     - id: helm-docs
       args:
